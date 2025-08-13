@@ -95,13 +95,20 @@ signIn.addEventListener('click', async (event) => {
 
     if (snapshot.exists()) {
       const userData = snapshot.val();
-      if (userData.role === "admin") {
+      const role = userData.role;
+
+      // 🔁 Redirect based on role
+      if (role === "admin") {
         window.location.href = "../admin/admin.html";
+      } else if (role === "guard") {
+        window.location.href = "../guard page/guard.html";
       } else {
         window.location.href = "../home page/homepage.html";
       }
+
     } else {
-      window.location.href = "../home page/homepage.html"; // fallback if no data
+      // No user data found
+      window.location.href = "../home page/homepage.html";
     }
 
   } catch (error) {

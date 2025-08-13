@@ -216,3 +216,22 @@ button:hover{
     opacity: 0;
     animation: fadeOut 7s forwards;
 }
+#qrDisplay {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#downloadQR {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  margin-top: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#downloadQR:hover {
+  background-color: #388E3C;
+}

@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Student & Vehicle Information</title>
   <link rel="stylesheet" href="../login page/style.css" />
+
+  <!-- JS Modules -->
   <script type="module" src="../registration/registration.js"></script>
 </head>
 <body>
@@ -12,6 +14,7 @@
     <h1>Student & Vehicle Information</h1>
 
     <form id="studentVehicleForm" novalidate>
+      <!-- ✅ Single message display div -->
       <div id="signUpMessage" style="display:none; background-color: red; padding: 10px; color: white; margin-bottom: 10px; border-radius: 5px;"></div>
 
       <div class="row">
@@ -32,15 +35,18 @@
         <input type="text" id="color" placeholder="Vehicle Color" required />
         <input type="text" id="type" placeholder="Vehicle Type" required />
       </div>
+
+      <!-- Future Account Type Option (commented out) -->
+      <!-- 
       <div class="row">
-        <div id="signUpMessage" style="display:none; padding: 10px; color: white; margin-bottom: 10px; border-radius: 5px;"></div>
-  <!-- <label for="accountType" style="color:white;">Account Type</label>
-  <select id="accountType" required>
-    <option value="">Select Role</option>
-    <option value="user">User</option>
-    <option value="admin">Admin</option>
-  </select> -->
-</div>
+        <label for="accountType" style="color:white;">Account Type</label>
+        <select id="accountType" required>
+          <option value="">Select Role</option>
+          <option value="user">User</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+      -->
 
       <button type="submit" id="submitSignUp">Submit</button>
     </form>

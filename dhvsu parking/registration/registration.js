@@ -1,7 +1,9 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+import { getDatabase, ref, set, update } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+import { getStorage, ref as storageRef, uploadString, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
+import QRious from "https://cdn.skypack.dev/qrious";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB_rXWCXqQdi6tshyUiKLiDfSKqMzqu6KQ",
@@ -17,6 +19,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const rtdb = getDatabase(app);
+const storage = getStorage(app);
 
 function showMessage(message, divId, isSuccess = false) {
   const div = document.getElementById(divId);
@@ -24,11 +27,15 @@ function showMessage(message, divId, isSuccess = false) {
   div.innerText = message;
   div.style.display = 'block';
   div.style.backgroundColor = isSuccess ? 'green' : 'red';
+  div.style.color = 'white';
+  div.style.padding = '10px';
+  div.style.marginBottom = '10px';
+  div.style.borderRadius = '5px';
   setTimeout(() => div.style.display = 'none', 5000);
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  if (window.location.pathname.includes("index.html") && !window.location.pathname.includes("index2.html")) {
+  if (window.location.pathname.includes("index.html")) {
     document.getElementById("submitSignUp").addEventListener("click", (e) => {
       e.preventDefault();
       const fName = document.getElementById("fName").value.trim();
@@ -38,7 +45,6 @@ window.addEventListener("DOMContentLoaded", () => {
       const email = document.getElementById("pEmail").value.trim();
       const password = document.getElementById("rPassword").value;
       const confirmPassword = document.getElementById("confirmPassword").value;
-      const msgDiv = document.getElementById("signUpMessage");
 
       if (!fName || !lName || !contact || !address || !email || !password || !confirmPassword) {
         showMessage("Please fill out all required fields.", "signUpMessage");
@@ -55,13 +61,13 @@ window.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("address", address);
       localStorage.setItem("pEmail", email);
       localStorage.setItem("rPassword", password);
-      localStorage.setItem("confirmPassword", confirmPassword);
       window.location.href = "index2.html";
     });
   }
 
   if (window.location.pathname.includes("index2.html")) {
-    document.getElementById("submitSignUp").addEventListener("click", async (e) => {
+    const form = document.getElementById("studentVehicleForm");
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
       const fName = localStorage.getItem("fName");
       const lName = localStorage.getItem("lName");
@@ -77,7 +83,6 @@ window.addEventListener("DOMContentLoaded", () => {
       const color = document.getElementById("color").value.trim();
       const model = document.getElementById("model").value.trim();
       const type = document.getElementById("type").value.trim();
-      const msgDiv = document.getElementById("signUpMessage");
 
       if (!email || !password) {
         showMessage("Session expired. Please restart the registration.", "signUpMessage");
@@ -92,6 +97,8 @@ window.addEventListener("DOMContentLoaded", () => {
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
+        const fullName = `${fName} ${lName}`;
+        const userPath = `students/${user.uid}`;
 
         await setDoc(doc(db, "users", user.uid), {
           firstName: fName,
@@ -108,10 +115,10 @@ window.addEventListener("DOMContentLoaded", () => {
           type
         });
 
-        await set(ref(rtdb, "students/" + user.uid), {
+        await set(ref(rtdb, userPath), {
           firstName: fName,
           lastName: lName,
-          fullName: `${fName} ${lName}`,
+          fullName,
           email,
           contact,
           address,
@@ -126,16 +133,39 @@ window.addEventListener("DOMContentLoaded", () => {
           vehicleImageURL: ""
         });
 
-        localStorage.clear();
+        // ✅ Generate and Upload QR Code
+        const qr = new QRious({
+          value: `${fullName}\n${studentID}`,
+          size: 250
+        });
+
+        const qrDataURL = qr.toDataURL();
+        const qrRef = storageRef(storage, `QRCode/${user.uid}.png`);
+        await uploadString(qrRef, qrDataURL, 'data_url');
+        const qrURL = await getDownloadURL(qrRef);
+
+        await update(ref(rtdb, userPath), {
+          qrCodeURL: qrURL
+        });
+
+        localStorage.setItem("qrURL", qrURL);
         showMessage("You have successfully registered!", "signUpMessage", true);
+
         setTimeout(() => {
-          window.location.href = "../login page/index.html";
+          localStorage.clear();
+          window.location.href = "../registration/qr.html";
         }, 3000);
 
       } catch (error) {
+        console.error("❌ Registration error:", error);
         showMessage("Error: " + error.message, "signUpMessage");
-        console.error(error);
       }
     });
+  }
+
+  if (window.location.pathname.includes("qr.html")) {
+    const qrImg = document.getElementById("qrPreview");
+    const url = localStorage.getItem("qrURL");
+    if (qrImg && url) qrImg.src = url;
   }
 });

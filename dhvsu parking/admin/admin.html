@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Dashboard</title>
+  <script src="https://unpkg.com/qr-scanner@1.4.2/qr-scanner.umd.min.js"></script>
   <link rel="stylesheet" href="../home page/style.css" />
   <script type="module" src="admin.js"></script>
   <style>
@@ -75,21 +76,15 @@
       margin-top: 20px;
     }
 
-    .page-section:first-child {
-      display: block;
-    }
-
     .table-container {
       margin-top: 20px;
       overflow-x: auto;
-      background: #f4f6f8;
+      background: #0d0c0c;
       padding: 30px;
       border-radius: 15px;
-      width: 100%;
-      max-width: 900px;
+      width: 360px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-      margin-left: auto;
-      margin-right: auto;
+      text-align: center;
     }
 
     table {
@@ -99,10 +94,9 @@
     }
 
     th, td {
-      padding: 16px 10px;
+      padding: 12px;
       border: 1px solid #ccc;
-      text-align: left;
-      vertical-align: top;
+      text-align: center;
     }
 
     th {
@@ -131,8 +125,39 @@
       color: #555;
     }
 
-    .card-container h2 {
-      text-align: center;
+    .scanner-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 400px;
+      position: relative;
+    }
+
+    .scanner-frame {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    #preview {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 10%;
+      left: 10%;
+      width: 80%;
+      height: 80%;
+      border: 2px solid #00ff00;
+      border-radius: 8px;
+      pointer-events: none;
     }
   </style>
 </head>
@@ -144,75 +169,56 @@
 
   <section id="sidebar">
     <ul class="side-menu top">
-      <li class="active">
-        <a href="#" id="dashboardBtn">
-          <i class='bx bxs-dashboard'></i>
-          <span class="text">Dashboard</span>
-        </a>
-      </li>
-      <li>
-        <a href="#" id="listUsersBtn">
-          <i class='bx bxs-group'></i>
-          <span class="text">List of user</span>
-        </a>
-      </li>
-      <li>
-        <a href="#" id="settingsBtn">
-          <i class='bx bxs-cog'></i>
-          <span class="text">Settings</span>
-        </a>
-      </li>
-      <li>
-        <a href="#" id="logout">
-          <i class='bx bx-log-out'></i>
-          <span class="text">Logout</span>
-        </a>
-      </li>
+      <li class="active"><a href="#" id="dashboardBtn"><span class="text">Dashboard</span></a></li>
+      <li><a href="#" id="listUsersBtn"><span class="text">List of user</span></a></li>
+      <li><a href="#" id="scannerBtn"><span class="text">Scanner</span></a></li>
+      <li><a href="#" id="settingsBtn"><span class="text">Settings</span></a></li>
+      <li><a href="#" id="logout"><span class="text">Logout</span></a></li>
     </ul>
   </section>
 
   <div class="content">
-    <!-- Dashboard -->
-    <div id="dashboardSection" class="page-section">
-      <h2>Welcome, Admin!</h2>
-      <p>This is the dashboard view.</p>
-    </div>
 
-    <!-- List of User -->
-    <div id="listUserSection" class="page-section" style="display: none;">
-      <div class="card-container">
-        <h2>Registered Users</h2>
-        <div class="table-container">
-          <table id="userTable" class="styled-table">
-            <thead>
-              <tr>
-                <th>Full Name</th>
-                <th>ID</th>
-                <th>Course</th>
-                <th>Year/Section</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="user-row">
-                <td><span class="cell-label">Full Name:</span> Juan Dela Cruz</td>
-                <td><span class="cell-label">ID:</span> 2023123456</td>
-                <td><span class="cell-label">Course:</span> BSIT</td>
-                <td><span class="cell-label">Year/Section:</span> 3A</td>
-                <td><button>Delete</button></td>
-              </tr>
-              <!-- More users will be inserted here dynamically -->
-            </tbody>
-          </table>
+    <!-- Scanner Section -->
+    <div id="scannerSection" class="page-section">
+      <h2>QR Code Scanner</h2>
+      <div class="scanner-wrapper">
+        <div class="scanner-frame">
+          <video id="preview" autoplay></video>
+          <div class="overlay"></div>
         </div>
       </div>
     </div>
 
-    <!-- Settings -->
-    <div id="settingsSection" class="page-section" style="display: none;">
-      <h2>Settings</h2>
-      <p>Settings content here...</p>
+    <!-- Dashboard -->
+    <div id="dashboardSection" class="page-section">
+      <h2>Welcome, Admin!</h2>
     </div>
+
+    <!-- Users List -->
+    <div id="listUserSection" class="page-section">
+      <h2>Registered Users</h2>
+      <div class="table-container">
+        <table id="userTable" class="styled-table">
+          <thead>
+            <tr>
+              <th>Full Name</th>
+              <th>ID</th>
+              <th>Course</th>
+              <th>Year/Section</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Settings -->
+    <div id="settingsSection" class="page-section">
+      <h2>Settings</h2>
+    </div>
+
   </div>
 </body>
 </html>

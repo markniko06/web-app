@@ -1,10 +1,10 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 import { getDatabase, ref, get, remove } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
-import {getFirestore,doc,deleteDoc} from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+import QrScanner from "https://unpkg.com/qr-scanner@1.4.2/qr-scanner.min.js";
 
-
-// Firebase config
+// Firebase Config
 const firebaseConfig = {
   apiKey: "AIzaSyB_rXWCXqQdi6tshyUiKLiDfSKqMzqu6KQ",
   authDomain: "login-b3b32.firebaseapp.com",
@@ -18,62 +18,65 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const auth = getAuth(app);
-const firestore = getFirestore(app);
 
-
-// Section Elements
+// Sections
 const dashboardSection = document.getElementById("dashboardSection");
 const listUserSection = document.getElementById("listUserSection");
 const settingsSection = document.getElementById("settingsSection");
+const scannerSection = document.getElementById("scannerSection");
 
-// Nav Buttons
+// Buttons
 const dashboardBtn = document.getElementById("dashboardBtn");
 const listUsersBtn = document.getElementById("listUsersBtn");
 const settingsBtn = document.getElementById("settingsBtn");
+const scannerBtn = document.getElementById("scannerBtn");
 
-// Navigation logic
+// Navigation
 function showSection(section) {
-  dashboardSection.style.display = "none";
-  listUserSection.style.display = "none";
-  settingsSection.style.display = "none";
+  const sections = [dashboardSection, listUserSection, settingsSection, scannerSection];
+  sections.forEach(s => s.style.display = "none");
   section.style.display = "block";
 }
 
-function setActiveTab(activeBtn) {
+function setActiveTab(btn) {
   document.querySelectorAll(".side-menu.top li").forEach(li => li.classList.remove("active"));
-  activeBtn.parentElement.classList.add("active");
+  btn.parentElement.classList.add("active");
 }
 
-// Event Listeners
-dashboardBtn?.addEventListener("click", (e) => {
-  e.preventDefault();
-  showSection(dashboardSection);
-  setActiveTab(dashboardBtn);
-});
-
-listUsersBtn?.addEventListener("click", async (e) => {
+dashboardBtn?.addEventListener("click", e => { e.preventDefault(); showSection(dashboardSection); setActiveTab(dashboardBtn); });
+listUsersBtn?.addEventListener("click", async e => {
   e.preventDefault();
   showSection(listUserSection);
   setActiveTab(listUsersBtn);
   await populateUserTable();
 });
-
-settingsBtn?.addEventListener("click", (e) => {
+settingsBtn?.addEventListener("click", e => { e.preventDefault(); showSection(settingsSection); setActiveTab(settingsBtn); });
+scannerBtn?.addEventListener("click", e => {
   e.preventDefault();
-  showSection(settingsSection);
-  setActiveTab(settingsBtn);
+  showSection(scannerSection);
+  setActiveTab(scannerBtn);
+  startScanner();
 });
+
+// QR Scanner
+let qrScanner;
+function startScanner() {
+  const video = document.getElementById("preview");
+  if (qrScanner) qrScanner.stop(); // stop previous
+  qrScanner = new QrScanner(video, result => {
+    alert("Scanned: " + result);
+    qrScanner.stop();
+  });
+  qrScanner.start();
+}
 
 // Populate user table
 async function populateUserTable() {
   const tbody = document.querySelector("#userTable tbody");
   tbody.innerHTML = "";
-
   const snapshot = await get(ref(db, "students"));
   if (!snapshot.exists()) return;
-
   const users = snapshot.val();
-
   Object.entries(users).forEach(([uid, user]) => {
     const row = document.createElement("tr");
     row.innerHTML = `
@@ -81,9 +84,7 @@ async function populateUserTable() {
       <td>${user.studentID || "-"}</td>
       <td>${user.course || "-"}</td>
       <td>${user.yearSection || "-"}</td>
-      <td>
-        <button onclick="deleteUser('${uid}')">Delete</button>
-      </td>
+      <td><button onclick="deleteUser('${uid}')">Delete</button></td>
     `;
     tbody.appendChild(row);
   });
@@ -91,41 +92,23 @@ async function populateUserTable() {
 
 // Delete user
 window.deleteUser = async function(uid) {
-  const confirmDelete = confirm("Are you sure you want to delete this user?");
-  if (!confirmDelete) return;
-
-  try {
-    await remove(ref(db, "students/" + uid));
-    alert("User deleted successfully.");
-    populateUserTable(); // Refresh after deletion
-  } catch (error) {
-    console.error("Delete error:", error);
-    alert("Failed to delete user.");
-  }
+  if (!confirm("Are you sure you want to delete this user?")) return;
+  await remove(ref(db, "students/" + uid));
+  alert("Deleted.");
+  populateUserTable();
 };
 
-// Auth Check
+// Auth check
 onAuthStateChanged(auth, async (user) => {
-  if (!user) {
-    window.location.href = "../login page/index.html";
-    return;
-  }
-
-  const userRef = ref(db, "students/" + user.uid);
-  const userSnap = await get(userRef);
-  const userData = userSnap.val();
-
-  if (!userData || userData.role !== "admin") {
-    alert("Access denied. Admins only.");
+  if (!user) return window.location.href = "../login page/index.html";
+  const snap = await get(ref(db, "students/" + user.uid));
+  if (!snap.exists() || snap.val().role !== "admin") {
+    alert("Access denied.");
     window.location.href = "../login page/index.html";
   }
 });
 
 // Logout
-document.getElementById("logout")?.addEventListener("click", (e) => {
-  e.preventDefault();
-  localStorage.removeItem("loggedInUserId");
-  signOut(auth).then(() => {
-    window.location.href = "../login page/index.html";
-  });
+document.getElementById("logout")?.addEventListener("click", () => {
+  signOut(auth).then(() => window.location.href = "../login page/index.html");
 });

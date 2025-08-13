@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guard Dashboard</title>
+  <script src="https://unpkg.com/qr-scanner@1.4.2/qr-scanner.umd.min.js"></script>
+  <link rel="stylesheet" href="../home page/style.css" />
+  <script type="module" src="guard.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <img src="../pictures/dhvsu_logo.png" alt="Logo" class="logo" />
+    <h1>DLC VEHICLES MONITORING – GUARD</h1>
+  </header>
+
+  <section id="sidebar">
+    <ul class="side-menu top">
+      <li class="active"><a href="#" id="dashboardBtn"><span class="text">Dashboard</span></a></li>
+      <li><a href="#" id="scannerBtn"><span class="text">Scanner</span></a></li>
+      <li><a href="#" id="settingsBtn"><span class="text">History</span></a></li>
+      <li><a href="#" id="logout"><span class="text">Logout</span></a></li>
+    </ul>
+  </section>
+
+  <div class="content">
+    <!-- Scanner Section -->
+    <div id="scannerSection" class="page-section">
+      <h2>QR Code Scanner</h2>
+      <div class="scanner-wrapper">
+        <div class="scanner-frame">
+          <video id="preview" autoplay></video>
+          <div class="overlay"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboardSection" class="page-section">
+      <h2>Welcome, Guard!</h2>
+      <p>This is your dashboard view.</p>
+    </div>
+
+    <!-- Settings -->
+    <div id="settingsSection" class="page-section">
+      <h2>Settings</h2>
+      <p>Settings content for guards...</p>
+    </div>
+  </div>
+</body>
+</html>
