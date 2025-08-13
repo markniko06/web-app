@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="../home page/style.css" />
+  <script type="module" src="admin.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f0f2f5;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: #800000;
+      color: white;
+    }
+
+    .topbar .logo {
+      width: 50px;
+      margin-right: 15px;
+    }
+
+    h1 {
+      font-size: 20px;
+      margin: 0;
+    }
+
+    #sidebar {
+      background-color: #f8f9fa;
+      width: 200px;
+      height: 100vh;
+      position: fixed;
+      top: 60px;
+      left: 0;
+      padding-top: 20px;
+    }
+
+    .side-menu {
+      list-style: none;
+      padding: 0;
+    }
+
+    .side-menu li {
+      margin: 10px 0;
+    }
+
+    .side-menu li a {
+      color: white;
+      text-decoration: none;
+      display: block;
+      padding: 10px;
+    }
+
+    .side-menu li.active a,
+    .side-menu li a:hover {
+      background-color: #34495e;
+    }
+
+    .content {
+      margin-left: 220px;
+      padding: 20px;
+    }
+
+    .page-section {
+      display: none;
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+
+    .page-section:first-child {
+      display: block;
+    }
+
+    .table-container {
+      margin-top: 20px;
+      overflow-x: auto;
+      background: #f4f6f8;
+      padding: 30px;
+      border-radius: 15px;
+      width: 100%;
+      max-width: 900px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+    }
+
+    th, td {
+      padding: 16px 10px;
+      border: 1px solid #ccc;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background-color: #4F87D6;
+      color: white;
+    }
+
+    td button {
+      padding: 6px 12px;
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    td button:hover {
+      background-color: #c0392b;
+    }
+
+    .cell-label {
+      display: block;
+      font-weight: bold;
+      font-size: 0.85rem;
+      margin-bottom: 4px;
+      color: #555;
+    }
+
+    .card-container h2 {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <img src="../pictures/dhvsu_logo.png" alt="Logo" class="logo" />
+    <h1>DLC VEHICLES MONITORING</h1>
+  </header>
+
+  <section id="sidebar">
+    <ul class="side-menu top">
+      <li class="active">
+        <a href="#" id="dashboardBtn">
+          <i class='bx bxs-dashboard'></i>
+          <span class="text">Dashboard</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" id="listUsersBtn">
+          <i class='bx bxs-group'></i>
+          <span class="text">List of user</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" id="settingsBtn">
+          <i class='bx bxs-cog'></i>
+          <span class="text">Settings</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" id="logout">
+          <i class='bx bx-log-out'></i>
+          <span class="text">Logout</span>
+        </a>
+      </li>
+    </ul>
+  </section>
+
+  <div class="content">
+    <!-- Dashboard -->
+    <div id="dashboardSection" class="page-section">
+      <h2>Welcome, Admin!</h2>
+      <p>This is the dashboard view.</p>
+    </div>
+
+    <!-- List of User -->
+    <div id="listUserSection" class="page-section" style="display: none;">
+      <div class="card-container">
+        <h2>Registered Users</h2>
+        <div class="table-container">
+          <table id="userTable" class="styled-table">
+            <thead>
+              <tr>
+                <th>Full Name</th>
+                <th>ID</th>
+                <th>Course</th>
+                <th>Year/Section</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="user-row">
+                <td><span class="cell-label">Full Name:</span> Juan Dela Cruz</td>
+                <td><span class="cell-label">ID:</span> 2023123456</td>
+                <td><span class="cell-label">Course:</span> BSIT</td>
+                <td><span class="cell-label">Year/Section:</span> 3A</td>
+                <td><button>Delete</button></td>
+              </tr>
+              <!-- More users will be inserted here dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings -->
+    <div id="settingsSection" class="page-section" style="display: none;">
+      <h2>Settings</h2>
+      <p>Settings content here...</p>
+    </div>
+  </div>
+</body>
+</html>
