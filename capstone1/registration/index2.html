@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student & Vehicle Information</title>
+  <link rel="stylesheet" href="../login page/style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+  <script type="module" src="../registration/registration.js"></script>
+</head>
+<body>
+  <div class="form-container">
+    <h1>Student & Vehicle Information</h1>
+    <div id="signUpMessage" style="display:none;"></div>
+    <form id="studentVehicleForm" novalidate>
+      <input type="text" id="studentID" placeholder="Student Number" required />
+      <input type="text" id="course" placeholder="Course" required />
+      <input type="text" id="yearSection" placeholder="Section" required />
+      <input type="text" id="model" placeholder="Vehicle Model" required />
+      <input type="text" id="plate" placeholder="Plate Number" required />
+      <input type="text" id="color" placeholder="Vehicle Color" required />
+      <input type="text" id="type" placeholder="Vehicle Type" required />
+      <button type="submit" id="submitSignUp">Submit</button>
+    </form>
+  </div>
+</body>
+</html>

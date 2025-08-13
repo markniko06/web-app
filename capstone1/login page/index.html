@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register & Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../registration/registrationstyle.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script type="module" src="../login page/firebaseauth.js"></script>
+</head>
+<body>
+  
+  <div class="container" id="LogIn">
+    <h1 class="form-title">Log In To Your Account</h1>
+    <form method="get" action="">
+        <div id="signInMessage" class="messageDiv" style="display:none;"></div>
+
+        <div class="input-group">
+            <input type="text" id="email" placeholder="Email" required>
+            <i class='bx bxs-user'></i>
+        </div>
+
+        <div class="input-group">
+            <input type="password" id="password" placeholder="Password" required>
+            <i class='bx bxs-lock-alt'></i>
+        </div>
+
+        <div class="remember-login">
+            <label><input type="checkbox"> Remember me</label>
+            <button class="btn" id="submitSignIn">Log In</button>
+        </div>
+        
+        <p class="recover">
+            <label for="forgotText">Forgot your Password?</label><br/>
+            <u><a href="#">please click here</a></u>
+            <label for="resetText">to reset your password.</label><br/>
+        </p>
+    </form>
+
+    <p class="or">
+        ____________________________________
+    </p><br/>
+    
+    <div class="registration">
+        <button id="signUpButton">Register Account</button>
+    </div>
+  </div>
+
+
+  <script>
+    document.getElementById("signUpButton").addEventListener("click", function () {
+        window.location.href = '../registration/index.html';
+    });
+  </script>
+
+</body>
+</html>
