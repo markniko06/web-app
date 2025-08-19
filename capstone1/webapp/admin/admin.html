@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="../home page/style.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <script type="module" src="admin.js" defer></script>
+  <style>
+    body.dark-mode {
+      background-color: #121212;
+      color: white;
+    }
+    body.dark-mode table {
+      background-color: #1f1f1f;
+      color: white;
+    }
+    body.dark-mode button {
+      background-color: #333;
+      color: white;
+    }
+    .dark-toggle {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <img src="../pictures/dhvsu_logo.png" alt="Logo" class="logo" />
+    <h1>DLC VEHICLES MONITORING – ADMIN</h1>
+    <button class="dark-toggle" onclick="toggleDarkMode()">🌙</button>
+  </header>
+
+  <section id="sidebar">
+    <ul class="side-menu top">
+      <li class="active"><a href="#" id="dashboardBtn"><span class="text">Dashboard</span></a></li>
+      <li><a href="#" id="listUsersBtn"><span class="text">List of Users</span></a></li>
+      <li><a href="#" id="historyBtn"><span class="text">History</span></a></li>
+      <li><a href="#" id="settingsBtn"><span class="text">Settings</span></a></li>
+      <li><a href="#" id="logout"><span class="text">Logout</span></a></li>
+    </ul>
+  </section>
+
+  <div class="content">
+    <!-- Dashboard -->
+    <div id="dashboardSection" class="page-section">
+      <h2>Welcome, Admin!</h2>
+      <p>Use the sidebar to manage users and view history.</p>
+    </div>
+
+    <!-- List of Users -->
+    <div id="listUserSection" class="page-section" style="display: none;">
+      <h2>Registered Users</h2>
+      <div class="table-container">
+        <input type="text" id="userSearchInput" placeholder="Search name or ID..." style="margin-bottom: 10px; padding: 8px; width: 100%; max-width: 300px; border-radius: 5px; border: 1px solid #ccc;" />
+        <button id="downloadUserCSV" style="margin-bottom: 10px;">⬇️ Download CSV</button>
+        <table id="userTable" class="styled-table">
+          <thead>
+            <tr>
+              <th>Full Name</th>
+              <th>ID</th>
+              <th>Course</th>
+              <th>Year/Section</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <div id="pagination" style="margin-top: 10px;"></div>
+      </div>
+    </div>
+
+    <!-- History Section -->
+    <div id="historySection" class="page-section" style="display: none;">
+      <h2>Scan Logs</h2>
+      <input type="text" id="searchInput" placeholder="Search by name or date..." style="margin-bottom: 10px; padding: 8px; width: 100%; max-width: 300px; border-radius: 5px; border: 1px solid #ccc;" />
+      <button id="downloadLogCSV" style="margin-bottom: 10px; padding: 8px 16px; background-color: #4a90e2; color: white; border: none; border-radius: 5px; cursor: pointer;">
+        Download CSV
+      </button>
+      <div class="table-container">
+        <table id="logsTable" class="styled-table">
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th>Date</th>
+              <th>Time In</th>
+              <th>Time Out</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Settings -->
+    <div id="settingsSection" class="page-section" style="display: none;">
+      <h2>Settings</h2>
+      <p>Dark mode is available in the top right corner. More settings coming soon.</p>
+    </div>
+  </div>
+
+  <script>
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark-mode");
+    }
+  </script>
+</body>
+</html>

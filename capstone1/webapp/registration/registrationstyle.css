@@ -1,0 +1,218 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"poppins",sans-serif;
+    
+}
+body{
+    padding-top: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background: url(../pictures/dhvsu_logo.png) no-repeat top center,url(../pictures/dhvsu.jpg) no-repeat center center;
+    background-attachment: fixed;
+    background-size: 10%,cover;
+    opacity: 0.9;
+}
+
+.container{
+    width:420px;
+    background: transparent;
+    color: #dfe9f5;
+    padding:1.5rem;
+    margin:50px auto;
+    border-radius:10px;
+    box-shadow:0 20px 35px rgba(0,0,1,0.9);
+    background: rgb(48, 44, 44);
+    backdrop-filter: blur(-90px);
+}
+
+form{
+    margin:0 2rem;
+}
+
+.container .form-title{
+    font-size:1.5rem;
+    font-weight:bold;
+    text-align:center;
+    padding:1.3rem;
+    margin-bottom:0.4rem;
+}
+
+.container .input-group{
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin: 30px 0;
+}
+
+.input-group input{
+    width:100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, .2);
+    border-radius: 40px;
+    font-size: 16px;
+    color:#dfe9f5;
+    padding: 20px 45px 20px  20px;
+}
+
+input::placeholder{
+    color: white;
+}
+
+.input-group i {
+    position: absolute;
+    right: 20px;
+    top: 48%;
+    transform: translateY(-48%);
+    font-size: 20px;
+
+}
+
+input:focus{
+    background-color: transparent;
+    outline:transparent;
+    border-bottom:2px solid hsl(327,90%,28%);
+}
+
+.container .remember-login {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14.5px;
+    margin: -15px 0 15px;
+}
+
+.container .btn {
+    width: 25%;
+    height: 35px;
+    background: #6b0ae2;
+    border: none;
+    outline: none;
+    border-radius: 35px;
+    box-shadow: 0 0 10px rgba(0,0,1,0.1);
+    cursor: pointer;
+    font-size: 16px;
+    color: rgb(255, 255, 255);
+    font-size: 600;
+}
+
+.container .recover{
+    text-align: left;
+    font-size: 600;
+    margin-bottom:1rem;
+
+}
+
+/* 
+.container .signUpButton {
+    width: 50%;
+    height: 45px;
+    background: #089c19;
+    border: none;
+    outline: none;
+    border-radius: 35px;
+    box-shadow: 0 0 10px rgba(0,0,1,0.1);
+    cursor: pointer;
+    font-size: 16px;
+    color: rgb(255, 255, 255);
+    font-size: 600;
+
+    width:100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, .2);
+    border-radius: 40px;
+    font-size: 16px;
+    color:#dfe9f5;
+    padding: 20px 45px 20px  20px;
+} */
+
+input:focus~label,input:not(:placeholder-shown)~label{
+    top:-3em;
+    color:hsl(327,90%,28%);
+    font-size:15px;
+}
+
+.recover a{
+    text-decoration:none;
+    color:rgb(125,125,235);
+}
+
+.recover a:hover{
+    color:blue;
+    text-decoration:underline;
+}
+button{
+    font-size:1.1rem;
+    padding:8px 0;
+    border-radius:5px;
+    outline:none;
+    border:none;
+    width:100%;
+    background:rgb(33, 161, 28);
+    color:white;
+    cursor:pointer;
+    transition:0.9s;
+}
+button:hover{
+    background:#07001f;
+}
+.or{
+    font-size:1.1rem;
+    margin-top:0.5rem;
+    text-align:center;
+}
+.icons{
+    text-align:center;
+}
+.icons i{
+    color:rgb(125,125,235);
+    padding:0.8rem 1.5rem;
+    border-radius:10px;
+    font-size:1.5rem;
+    cursor:pointer;
+    border:2px solid #dfe9f5;
+    margin:0 15px;
+    transition:1s;
+}
+.icons i:hover{
+    background:#07001f;
+    font-size:1.6rem;
+    border:2px solid rgb(125,125,235);
+}
+.links{
+    display:flex;
+    justify-content:space-around;
+    padding:0 4rem;
+    margin-top:0.9rem;
+    font-weight:bold;
+}
+ /* #signUpButton, #signInButton{
+    color:rgb(125,125,235);
+    border:none;
+    background-color:transparent;
+    font-size:1rem;
+    font-weight:bold;
+}
+#signUpButton:hover, #signInButton:hover {
+    text-decoration:underline;
+    color:blue;
+}  */
+.messageDiv{
+    background-color: hsl(327,90%,28%);
+    color: white;
+    padding: 10px 20px;
+    margin: 10px;
+    border: radius 5px; 
+    font-size: 1rem;
+    opacity: 0;
+    animation: fadeOut 7s forwards;
+}

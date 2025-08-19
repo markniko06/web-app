@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register & Login</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="../login page/style.css" />
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet' />
+  <script type="module" src="../registration/registration.js"></script>
+</head>
+<body>
+
+  <div class="form-container">
+    <h1>Personal Information</h1>
+
+    <form id="registerForm" novalidate>
+      <div id="signUpMessage" style="display:none; background-color: red; padding: 10px; color: white; margin-bottom: 10px; border-radius: 5px;"></div>
+
+      <div class="row">
+        <input type="text" id="fName" placeholder="Firstname" required />
+        <input type="text" id="lName" placeholder="Lastname" required />
+      </div>
+
+      <div class="row">
+        <input type="text" id="contact" placeholder="Contact Number" required oninput="validateContact(this)" />
+      </div>
+
+      <input type="text" id="address" placeholder="Address" required />
+      <input type="email" id="pEmail" placeholder="Email" required />
+
+      <div class="password-group">
+        <input type="password" id="rPassword" placeholder="Password" required />
+        <i class="fas fa-eye togglePassword" onclick="togglePassword('rPassword', this)"></i>
+      </div>
+
+      <div class="password-group">
+        <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
+        <i class="fas fa-eye togglePassword" onclick="togglePassword('confirmPassword', this)"></i>
+        <div class="button-group"></div>
+      </div>
+
+      <button type="submit" id="submitSignUp">Next</button>
+
+      <div class="links">
+        <p>Already Have Account ?</p>
+        <button type="button" id="signInButton">Log In</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    function togglePassword(id, icon) {
+      const input = document.getElementById(id);
+      input.type = input.type === "password" ? "text" : "password";
+      icon.classList.toggle("fa-eye");
+      icon.classList.toggle("fa-eye-slash");
+    }
+
+    document.getElementById("signInButton").addEventListener("click", () => {
+      window.location.href = "../login page/index.html";
+    });
+
+    function validateContact(input) {
+      input.value = input.value.replace(/[^0-9+]/g, '');
+      if ((input.value.match(/\+/g) || []).length > 1 || (input.value.includes('+') && input.value[0] !== '+')) {
+        input.value = '+' + input.value.replace(/\+/g, '');
+      }
+    }
+
+    document.getElementById("registerForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const fName = document.getElementById("fName").value.trim();
+      const lName = document.getElementById("lName").value.trim();
+      const contact = document.getElementById("contact").value.trim();
+      const address = document.getElementById("address").value.trim();
+      const email = document.getElementById("pEmail").value.trim();
+      const password = document.getElementById("rPassword").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+      const msgDiv = document.getElementById("signUpMessage");
+
+      if (!fName || !lName || !contact || !address || !email || !password || !confirmPassword) {
+        msgDiv.style.display = "block";
+        msgDiv.textContent = "Please fill out all required fields.";
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        msgDiv.style.display = "block";
+        msgDiv.textContent = "Passwords do not match!";
+        return;
+      }
+
+      msgDiv.style.display = "none";
+      localStorage.setItem("fName", fName);
+      localStorage.setItem("lName", lName);
+      localStorage.setItem("contact", contact);
+      localStorage.setItem("address", address);
+      localStorage.setItem("pEmail", email);
+      localStorage.setItem("rPassword", password);
+      localStorage.setItem("confirmPassword", confirmPassword);
+      window.location.href = "index2.html";
+    });
+  </script>
+
+</body>
+</html>
